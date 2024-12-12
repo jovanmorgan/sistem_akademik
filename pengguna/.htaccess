@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /sistem_akademik/pengguna/
+
+# Menghapus ekstensi .php dari URL
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+# Arahkan pengguna ke halaman login jika URL tidak valid
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ ../berlangganan/login.php [L]
+
+# Menangani kesalahan 404 secara khusus (jika diperlukan)
+ErrorDocument 404 /404.php

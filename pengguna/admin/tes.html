@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Calendar</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+    />
+    <link rel="stylesheet" href="tes.css" />
+  </head>
+  <body>
+    <p class="mock-up-link">
+      Mock up link
+      <a href="https://dribbble.com/shots/5465486-Calendar-UI#comment-7928835"
+        >here</a
+      >
+    </p>
+    <div class="main-container-wrapper">
+      <header>
+        <button class="header__btn header__btn--left" title="Menu">
+          <svg
+            class="icon"
+            width="20px"
+            viewBox="0 0 20 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path fill="#fff" d="M0 0h20v2H0zM0 7h20v2H0zM0 14h20v2H0z" />
+          </svg>
+        </button>
+        <button class="header__btn header__btn--right" title="Add event">
+          <svg
+            class="icon"
+            width="26px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="#fff"
+              d="M416 277.333H277.333V416h-42.666V277.333H96v-42.666h138.667V96h42.666v138.667H416v42.666z"
+            />
+          </svg>
+        </button>
+      </header>
+      <main>
+        <div class="calendar-container">
+          <div class="calendar-container__header">
+            <button
+              class="calendar-container__btn calendar-container__btn--left"
+              title="Previous"
+              onclick="changeMonth(-1)"
+            >
+              <i class="icon ion-ios-arrow-back"></i>
+            </button>
+            <h2 class="calendar-container__title" id="calendar-title">
+              Month Year
+            </h2>
+            <button
+              class="calendar-container__btn calendar-container__btn--right"
+              title="Next"
+              onclick="changeMonth(1)"
+            >
+              <i class="icon ion-ios-arrow-forward"></i>
+            </button>
+          </div>
+          <div class="calendar-container__body">
+            <div class="calendar-table">
+              <div class="calendar-table__header">
+                <div class="calendar-table__row">
+                  <div class="calendar-table__col">S</div>
+                  <div class="calendar-table__col">M</div>
+                  <div class="calendar-table__col">T</div>
+                  <div class="calendar-table__col">W</div>
+                  <div class="calendar-table__col">T</div>
+                  <div class="calendar-table__col">F</div>
+                  <div class="calendar-table__col">S</div>
+                </div>
+              </div>
+              <div class="calendar-table__body" id="calendar-body">
+                <!-- Days will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          let currentDate = new Date();
+
+          function updateCalendar() {
+            const monthNames = [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December",
+            ];
+
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            document.getElementById(
+              "calendar-title"
+            ).innerText = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const calendarBody = document.getElementById("calendar-body");
+            calendarBody.innerHTML = "";
+
+            let date = 1;
+
+            for (let i = 0; i < 6; i++) {
+              const row = document.createElement("div");
+              row.className = "calendar-table__row";
+
+              for (let j = 0; j < 7; j++) {
+                const cell = document.createElement("div");
+                cell.className = "calendar-table__col";
+
+                if (i === 0 && j < firstDay) {
+                  cell.classList.add("calendar-table__inactive");
+                  cell.innerHTML = `<div class="calendar-table__item"><span></span></div>`;
+                } else if (date > daysInMonth) {
+                  cell.classList.add("calendar-table__inactive");
+                  cell.innerHTML = `<div class="calendar-table__item"><span></span></div>`;
+                } else {
+                  cell.innerHTML = `<div class="calendar-table__item"><span>${date}</span></div>`;
+                  if (
+                    date === new Date().getDate() &&
+                    month === new Date().getMonth() &&
+                    year === new Date().getFullYear()
+                  ) {
+                    cell.classList.add("calendar-table__today");
+                  }
+                  date++;
+                }
+                row.appendChild(cell);
+              }
+              calendarBody.appendChild(row);
+            }
+          }
+
+          function changeMonth(offset) {
+            currentDate.setMonth(currentDate.getMonth() + offset);
+            updateCalendar();
+          }
+
+          updateCalendar();
+        </script>
+
+        <div class="events-container">
+          <span class="events__title">Data Transaksi Bulan Ini</span>
+          <ul class="events__list">
+            <li class="events__item">
+              <div class="events__item--left">
+                <span class="events__name"
+                  >Uang Masuk dari job web (300.000)</span
+                >
+                <span class="events__date">Selasa, 16-Oktober-2024</span>
+              </div>
+              <span class="events__tag">Pemasukan</span>
+            </li>
+            <li class="events__item">
+              <div class="events__item--left">
+                <span class="events__name">Beli nasi padang (10.000)</span>
+                <span class="events__date">Selasa, 16-Oktober-2024</span>
+              </div>
+              <span
+                class="events__tag events__tag--highlighted"
+                onclick="location.href='pengeluaran?id_pengeluaran='"
+                >Pengeluaran</span
+              >
+            </li>
+          </ul>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

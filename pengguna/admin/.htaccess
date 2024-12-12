@@ -1,0 +1,15 @@
+RewriteEngine On
+RewriteBase /sistem_akademik/pengguna/admin/
+
+# Menghapus ekstensi .php dari URL
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^/]+)/?$ $1.php [L]
+
+# Menangani URL yang tidak ditemukan
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ 404.php [L]
+
+# Arahkan halaman 404 ke file 404.php khusus
+ErrorDocument 404 /404.php
